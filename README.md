@@ -134,7 +134,7 @@ User Types → Frontend Processes → Typesense API → Results Display
   - Manual maintenance and updates
 - **Installation Guide**: [Typesense Self-Hosting Documentation](https://typesense.org/docs/guide/install-typesense.html#option-2-local-machine-self-hosting)
 
-Recommendation: 2 CPUs, 3 GB RAM with [maxcluster's professional hosting]([https://maxcluster.de](https://maxcluster.de/konfigurator-preise?utm_source=runasroot&utm_medium=referral&utm_campaign=typesense-integration))
+Recommendation: 2 CPUs, 3 GB RAM with [maxcluster's professional hosting](https://maxcluster.de/konfigurator-preise?utm_source=runasroot&utm_medium=referral&utm_campaign=typesense-integration)
 
 ## 🔧 Step-by-Step Integration Guide
 
