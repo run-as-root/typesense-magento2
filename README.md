@@ -138,22 +138,7 @@ User Types → Frontend Processes → Typesense API → Results Display
 
 ### Step 1: Install Extensions
 
-```bash
-# Install base Typesense extension
-composer require ceymox/typesense-search
-
-# Install Hyvä module (only if using Hyvä theme)
-composer require ceymox/typesense-hyva
-
-# Enable modules
-php bin/magento module:enable Ceymox_TypesenseSearch
-php bin/magento module:enable Ceymox_TypesenseHyva  # If using Hyvä
-
-# Complete installation
-php bin/magento setup:upgrade
-php bin/magento setup:di:compile
-php bin/magento setup:static-content:deploy
-```
+[Installation guideline](https://ceymox.com/doc/typesense-search-for-magento-implementation-guide.html#1.2)
 
 ### Step 2: Configure Typesense Backend
 
@@ -169,16 +154,18 @@ php bin/magento setup:static-content:deploy
 
 ### Step 3: Configure Magento Admin
 
-**Navigate to**: `Admin Panel > Stores > Configuration > Catalog > Typesense Search`
+**Navigate to**: `Admin Panel > Stores > Configuration > Typesense Search > General`
 
 **Configuration Settings**:
-- **Enable Typesense**: `Yes`
-- **Server URL**: Your Typesense endpoint
-- **API Key**: 
+- **Enable Search**: `Yes`
+- **Search-only (public) API key**: Your Typesense API Key
+- **Cloud Key**: 
   - **Cloud**: Use your actual API key
   - **Self-hosted**: Any random value (required by extension)
-- **Collection Prefix**: Unique identifier for your store
-- **Search Results Page**: Choose display method
+- **Index Name Prefix**: Unique identifier for your store
+- **Nodes**: Your Typesense endpoint
+- **protocol**: https
+- **Port**: 443
 
 ```bash
 # Save and refresh configuration
@@ -215,15 +202,31 @@ php bin/magento indexer:reindex typesense_categories typesense_products typsense
 
 ```xml
 <!-- Example layout override -->
-<!-- app/design/frontend/[Vendor]/[Theme]/Ceymox_TypesenseSearch/layout/catalogsearch_result_index.xml -->
+<!-- app/design/frontend/[Vendor]/[Theme]/Ceymox_TypesenseSearch/layout/override/base/catalogsearch_result_index.xml -->
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <body>
-        <referenceContainer name="content">
-            <!-- Revert to default Magento search blocks -->
-            <block class="Magento\CatalogSearch\Block\Result" name="search.result" 
-                   template="Magento_CatalogSearch::result.phtml" />
-        </referenceContainer>
+        <!--        <referenceBlock name="breadcrumbs" remove="true" />-->
+<!--        <referenceBlock name="page.main.title" display="false"/>-->
+<!--        <referenceContainer name="columns.top">-->
+<!--            <block ifconfig="typesense_search_result/instant_search_result/enable_result_page" class="Magento\Framework\View\Element\Template" name="typesense.loader" template="Ceymox_TypesenseSearch::loader.phtml" />-->
+<!--        </referenceContainer>-->
+<!--        <move element="catalog.compare.sidebar" destination="sidebar.main" />-->
+<!--        <move element="wishlist_sidebar" destination="sidebar.main" />-->
+<!--         <referenceBlock name="search.result">-->
+<!--            <action ifconfig="typesense_search_result/instant_search_result/enable_result_page" method="setTemplate">-->
+<!--                <argument name="template" xsi:type="string">Ceymox_TypesenseSearch::search/result.phtml</argument>-->
+<!--            </action>-->
+<!--        </referenceBlock> -->
+<!--        <referenceBlock name="catalogsearch.leftnav">-->
+<!--            <action ifconfig="typesense_search_result/instant_search_result/enable_result_page" method="setTemplate">-->
+<!--                <argument name="template" xsi:type="string">Ceymox_TypesenseSearch::search/layer/view.phtml</argument>-->
+<!--            </action>-->
+<!--            <arguments>-->
+<!--                <argument name="view_model"-->
+<!--                        xsi:type="object">Ceymox\TypesenseSearch\ViewModel\General</argument>-->
+<!--            </arguments>-->
+<!--        </referenceBlock>-->
     </body>
 </page>
 ```
@@ -241,22 +244,6 @@ php bin/magento indexer:reindex typesense_categories typesense_products typsense
 2. Load full Typesense functionality on first search interaction
 3. Use lazy loading for autocomplete suggestions
 4. Implement proper caching strategies
-
-```javascript
-// Example: Lazy load Typesense on search field focus
-document.addEventListener('DOMContentLoaded', function() {
-    const searchField = document.querySelector('#search');
-    let typesenseLoaded = false;
-    
-    searchField?.addEventListener('focus', function() {
-        if (!typesenseLoaded) {
-            // Dynamically load Typesense scripts
-            loadTypesenseScripts();
-            typesenseLoaded = true;
-        }
-    });
-});
-```
 
 ## 🚀 Performance Optimization Best Practices
 
