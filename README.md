@@ -334,4 +334,4 @@ For complex implementations or custom development needs, consider engaging:
 
 **Happy Searching!** 🔍
 
-*Last Updated: 2024 | For the latest updates and advanced configuration options, refer to the official Ceymox documentation and Typesense guides.*
+*Last Updated: 2025 | For the latest updates and advanced configuration options, refer to the official Ceymox documentation and Typesense guides.*
